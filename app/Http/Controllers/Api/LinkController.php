@@ -23,35 +23,29 @@ class LinkController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required|max:20',
+            'url' => 'required|active_url',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Link $link)
-    {
-        //
-    }
+        try {
+            $link = new Link;
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Link $link)
-    {
-        //
+            $link->user_id = auth()->user()->id;
+            $link->name = $request->input('name');
+            $link->url = $request->input('url');
+            $link->image = '/link-placehplder.png';
+
+            $link->save();
+
+            return response()->json('NEW LINK CREATED', 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     /**
@@ -59,7 +53,20 @@ class LinkController extends Controller
      */
     public function update(Request $request, Link $link)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:18',
+            'url' => 'required',
+        ]);
+
+        try {
+            $link->name = $request->input('name');
+            $link->url = $request->input('url');
+            $link->save();
+
+            return response()->json('LINK DETAILS UPDATED', 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     /**
@@ -67,6 +74,21 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
-        //
+        try {
+            if (
+                !is_null($link->image)
+                && file_exists(public_path() . $link->image
+                && $link->image != '/user-placeholder.png'
+                && $link->image != '/link-placeholder.png'
+            )) {
+                unlink(public_path() . $link->image);
+            }
+
+            $link->delete();
+
+            return response()->json('LINK DETAILS DELETED', 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 }
