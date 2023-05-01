@@ -25,4 +25,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('links', [LinkController::class, 'store']);
     Route::patch('links/{link}', [LinkController::class, 'update']);
     Route::delete('links/{link}', [LinkController::class, 'destroy']);
+
+    Route::post('link-image', [LinkImageController::class, 'store']);
 });
