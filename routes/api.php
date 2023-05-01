@@ -20,4 +20,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('users/{user}', [UserController::class, 'update']);
 
     Route::post('user-image', [UserImageController::class, 'store']);
+
+    Route::get('links', [LinkController::class, 'index']);
+    Route::post('links', [LinkController::class, 'store']);
+    Route::patch('links/{link}', [LinkController::class, 'update']);
+    Route::delete('links/{link}', [LinkController::class, 'destroy']);
 });
