@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Link;
+use App\Services\FileService;
 use Illuminate\Http\Request;
 
 class LinkImageController extends Controller
