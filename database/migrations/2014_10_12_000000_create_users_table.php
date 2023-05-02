@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+
+            $table->integer('theme_id');
             $table->string('name');
             $table->string('bio')->nullable();
             $table->text('image')->nullable();
